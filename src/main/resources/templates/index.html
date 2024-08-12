@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Fetcher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .input-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-group button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Stock Price Fetcher</h1>
+    <div class="input-group">
+        <label for="symbol">Enter Stock Symbol(s) (comma-separated):</label>
+        <input type="text" id="symbol" name="symbol" placeholder="e.g., AAPL, GOOGL, MSFT">
+    </div>
+    <div class="input-group">
+        <button onclick="submitForm()">Get Stock Data</button>
+    </div>
+    <div id="result">
+        <div th:each="entry : ${stockDataMap}">
+            <div class="result">
+                <h3 th:text="'Symbol: ' + ${entry.key}"></h3>
+                <pre th:text="${entry.value}"></pre>
+            </div>
+        </div>
+    </div>
+    <div id="error" class="result" th:if="${error != null}">
+        <p th:text="${error}" style="color: red;"></p>
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        const symbol = document.getElementById('symbol').value;
+        if (!symbol) {
+            alert('Please enter at least one stock symbol.');
+            return;
+        }
+        window.location.href = `/stock?symbol=${symbol}`;
+    }
+</script>
+</body>
+</html>
